@@ -1,0 +1,4 @@
+C:\Users\prige\source\repos\TpModule06\BO\bin\Debug\BO.dll
+C:\Users\prige\source\repos\TpModule06\BO\bin\Debug\BO.pdb
+C:\Users\prige\source\repos\TpModule06\BO\obj\Debug\BO.dll
+C:\Users\prige\source\repos\TpModule06\BO\obj\Debug\BO.pdb
