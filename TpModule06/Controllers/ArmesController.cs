@@ -43,11 +43,11 @@ namespace TpModule06.Controllers
         }
 
         // POST: Armes/Create
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nom,Degats")] Arme arme)
+        public ActionResult Create(Arme arme)
         {
             if (ModelState.IsValid)
             {
@@ -75,15 +75,17 @@ namespace TpModule06.Controllers
         }
 
         // POST: Armes/Edit/5
-        // Afin de déjouer les attaques par sur-validation, activez les propriétés spécifiques que vous voulez lier. Pour 
-        // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nom,Degats")] Arme arme)
+        public ActionResult Edit(Arme arme)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(arme).State = EntityState.Modified;
+                var armeDb = db.Armes.Find(arme.Id);
+                armeDb.Nom = arme.Nom;
+                armeDb.Degats = arme.Degats;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -102,6 +104,21 @@ namespace TpModule06.Controllers
             {
                 return HttpNotFound();
             }
+
+            try
+            {
+                // on récupère tous les samouraïs qui possèdent cette arme
+                var samourais = db.Samourais.Where(s => s.Arme.Id == id).ToList();
+                if (samourais.Any())
+                {
+                    // si il existe des samourais associés à l'arme, on renvoi la liste de leurs noms à l'aide du Viewbag
+                    ViewBag.Samourais = samourais.Select(s => s.Nom).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
             return View(arme);
         }
 
@@ -110,9 +127,24 @@ namespace TpModule06.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Arme arme = db.Armes.Find(id);
-            db.Armes.Remove(arme);
-            db.SaveChanges();
+            try
+            {
+                Arme arme = db.Armes.Find(id);
+
+                // on récupère tous les samouraïs qui possèdent cette arme
+                var samourais = db.Samourais.Where(s => s.Arme.Id == id).ToList();
+                foreach (var samourai in samourais)
+                {
+                    // on supprimme la liaison entre le samouraï et l'arme
+                    samourai.Arme = null;
+                }
+                db.Armes.Remove(arme);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -125,4 +157,5 @@ namespace TpModule06.Controllers
             base.Dispose(disposing);
         }
     }
+
 }

@@ -46,6 +46,7 @@ namespace TpModule06.Controllers
         {
             var vm = new SamouraiVM();
             vm.Armes = db.Armes.ToList();
+            vm.ArtsMartiaux = db.ArtMartials.ToList();
             return View(vm);
         }
 
@@ -62,6 +63,10 @@ namespace TpModule06.Controllers
                 {
                     vm.Samourai.Arme = db.Armes.FirstOrDefault(a => a.Id == vm.IdSelectedArme.Value);
                 }
+
+
+                vm.Samourai.ArtMartiaux = db.ArtMartials.Where(a => vm.IdSelectedArt.Contains(a.Id)).ToList() ;
+                
 
                 db.Samourais.Add(vm.Samourai);
                 db.SaveChanges();
@@ -84,7 +89,16 @@ namespace TpModule06.Controllers
             {
                 return HttpNotFound();
             }
-            return View(samourai);
+            var vm = new SamouraiVM();
+            vm.Armes = db.Armes.ToList();
+            vm.Samourai = samourai;
+
+            if (samourai.Arme != null)
+            {
+                vm.IdSelectedArme = samourai.Arme.Id;
+            }
+            return View(vm);
+
         }
 
         // POST: Samourais/Edit/5
@@ -92,16 +106,26 @@ namespace TpModule06.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Force,Nom")] Samourai samourai)
+        public ActionResult Edit(SamouraiVM vm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(samourai).State = EntityState.Modified;
+                var samouraidb = db.Samourais.Find(vm.Samourai.Id);
+                samouraidb.Force = vm.Samourai.Force;
+                samouraidb.Nom = vm.Samourai.Nom;
+                samouraidb.Arme = null;
+                if (vm.IdSelectedArme.HasValue)
+                {
+                    samouraidb.Arme = db.Armes.FirstOrDefault(a => a.Id == vm.IdSelectedArme.Value);
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(samourai);
+            vm.Armes = db.Armes.ToList();
+            return View(vm);
         }
+
 
         // GET: Samourais/Delete/5
         public ActionResult Delete(int? id)

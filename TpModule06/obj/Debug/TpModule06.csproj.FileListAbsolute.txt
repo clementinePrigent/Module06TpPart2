@@ -1,3 +1,4 @@
+C:\Users\prige\source\repos\TpModule06\TpModule06\obj\Debug\TpModule06.csprojAssemblyReference.cache
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\TpModule06.dll.config
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\TpModule06.dll
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\TpModule06.pdb
@@ -85,7 +86,6 @@ C:\Users\prige\source\repos\TpModule06\TpModule06\bin\fr\System.Web.Razor.resour
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\fr\System.Web.WebPages.resources.dll
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\fr\System.Web.WebPages.Deployment.resources.dll
 C:\Users\prige\source\repos\TpModule06\TpModule06\bin\fr\System.Web.WebPages.Razor.resources.dll
-C:\Users\prige\source\repos\TpModule06\TpModule06\obj\Debug\TpModule06.csprojAssemblyReference.cache
 C:\Users\prige\source\repos\TpModule06\TpModule06\obj\Debug\TpModule06.csproj.CopyComplete
 C:\Users\prige\source\repos\TpModule06\TpModule06\obj\Debug\TpModule06.dll
 C:\Users\prige\source\repos\TpModule06\TpModule06\obj\Debug\TpModule06.pdb

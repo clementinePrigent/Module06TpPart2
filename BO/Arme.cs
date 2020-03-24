@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public class Arme
+    public class Arme : CommunID
     {
-        public int Id { get; set; }
         public string Nom { get; set; }
         public int Degats { get; set; }
 
